@@ -2,18 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-	<AssemblyName>efInventory</AssemblyName>
+	  <AssemblyName>efInventory</AssemblyName>
+    <BepInExPluginGuid>dev.etherform.inventory</BepInExPluginGuid>
+		<BepInExPluginName>efInventory</BepInExPluginName>
     <Version>1.0.0</Version>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
-	<RootNamespace>efInventory</RootNamespace>
+	  <RootNamespace>efInventory</RootNamespace>
 
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;
       https://nuget.bepinex.dev/v3/index.json;
     </RestoreAdditionalProjectSources>
 
-    <Configurations>Debug;Release;SUBNAUTICA;BELOWZERO</Configurations>
+    <Configurations>SUBNAUTICA;BELOWZERO</Configurations>
+
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BELOWZERO|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='SUBNAUTICA|AnyCPU'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,10 +41,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\pk\Documents\src\subnautica\efInventory\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\Users\pk\Documents\src\subnautica\efInventory\.editorconfig" />
+    <None Update="Assets\01_Bag_Basic.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\02_Bag_Advanced.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\03_Bag_Superior.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Icons\BagEquipment1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Icons\BagEquipment2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Icons\BagEquipment3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

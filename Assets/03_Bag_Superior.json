@@ -1,0 +1,31 @@
+{
+  "techType": "BagSuperior",
+  "name": "Survival Deep Bag",
+  "description": "A tough bag reinforced with deep-sea materials. Expands the inventory by 2 rows and 1 column.",
+  "iconPath": "Icons/BagEquipment3.png",
+  "itemSize": {
+    "width": 2,
+    "height": 2
+  },
+  "bonus": {
+    "invWidth": 1,
+    "invHeight": 2
+  },
+  "recipe": {
+    "craftAmount": 1,
+    "Ingredients": [
+      {
+        "techType": "BagAdvanced",
+        "amount": 1
+      },
+      {
+        "techType": "Polyaniline",
+        "amount": 1
+      },
+      {
+        "techType": "Kyanite",
+        "amount": 1
+      }
+    ]
+  }
+}

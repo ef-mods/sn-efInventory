@@ -1,0 +1,31 @@
+{
+  "techType": "BagAdvanced",
+  "name": "Synthetic Fiber Pack",
+  "description": "A bag made from synthetic fibers, designed for durability and efficiency. Expands the inventory by 1 row and 1 column.",
+  "iconPath": "Icons/BagEquipment2.png",
+  "itemSize": {
+    "width": 2,
+    "height": 2
+  },
+  "bonus": {
+    "invWidth": 1,
+    "invHeight": 1
+  },
+  "recipe": {
+    "craftAmount": 1,
+    "Ingredients": [
+      {
+        "techType": "BagBasic",
+        "amount": 1
+      },
+      {
+        "techType": "AramidFibers",
+        "amount": 1
+      },
+      {
+        "techType": "Aerogel",
+        "amount": 1
+      }
+    ]
+  }
+}
