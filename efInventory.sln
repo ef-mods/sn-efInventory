@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "efInventory", "efInventory.csproj", "{A7D05B61-B3E4-86C2-264A-BEC9601E078B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		BELOWZERO|Any CPU = BELOWZERO|Any CPU
+		SUBNAUTICA|Any CPU = SUBNAUTICA|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7D05B61-B3E4-86C2-264A-BEC9601E078B}.BELOWZERO|Any CPU.ActiveCfg = BELOWZERO|Any CPU
+		{A7D05B61-B3E4-86C2-264A-BEC9601E078B}.BELOWZERO|Any CPU.Build.0 = BELOWZERO|Any CPU
+		{A7D05B61-B3E4-86C2-264A-BEC9601E078B}.SUBNAUTICA|Any CPU.ActiveCfg = SUBNAUTICA|Any CPU
+		{A7D05B61-B3E4-86C2-264A-BEC9601E078B}.SUBNAUTICA|Any CPU.Build.0 = SUBNAUTICA|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {05690414-D215-457D-A61A-738227024BB0}
+	EndGlobalSection
+EndGlobal
