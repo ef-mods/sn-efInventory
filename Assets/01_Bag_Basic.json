@@ -1,8 +1,8 @@
 {
   "techType": "BagBasic",
-  "name": "Fiber Pouch",
-  "description": "A basic pouch made from woven fibers. Expands the inventory by 1 row.",
-  "iconPath": "Icons/BagEquipment1.png",
+  "name": "Survival Pouch",
+  "description": "A survival pouch made of basic fibers and silicone. Expands the inventory by 1 row.",
+  "iconPath": "Icons/Pouch.png",
   "itemSize": {
     "width": 2,
     "height": 2

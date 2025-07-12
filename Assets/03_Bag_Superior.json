@@ -1,8 +1,8 @@
 {
   "techType": "BagSuperior",
-  "name": "Survival Deep Bag",
-  "description": "A tough bag reinforced with deep-sea materials. Expands the inventory by 2 rows and 1 column.",
-  "iconPath": "Icons/BagEquipment3.png",
+  "name": "Deep Sea Survival Pack",
+  "description": "A tough pack reinforced with deep-sea materials for utmost durability. Expands the inventory by 2 rows and 1 column.",
+  "iconPath": "Icons/Bag.png",
   "itemSize": {
     "width": 2,
     "height": 2
@@ -19,8 +19,8 @@
         "amount": 1
       },
       {
-        "techType": "Polyaniline",
-        "amount": 1
+        "techType": "Aerogel",
+        "amount": 2
       },
       {
         "techType": "Kyanite",

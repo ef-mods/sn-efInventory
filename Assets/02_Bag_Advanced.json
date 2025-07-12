@@ -1,8 +1,8 @@
 {
   "techType": "BagAdvanced",
-  "name": "Synthetic Fiber Pack",
-  "description": "A bag made from synthetic fibers, designed for durability and efficiency. Expands the inventory by 1 row and 1 column.",
-  "iconPath": "Icons/BagEquipment2.png",
+  "name": "Synthetic Survival Pack",
+  "description": "A survival pack that utilizes advanced materials for durability and efficiency. Expands the inventory by 1 row and 1 column.",
+  "iconPath": "Icons/Pack.png",
   "itemSize": {
     "width": 2,
     "height": 2
@@ -23,7 +23,7 @@
         "amount": 1
       },
       {
-        "techType": "Aerogel",
+        "techType": "Polyaniline",
         "amount": 1
       }
     ]
