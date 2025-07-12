@@ -8,8 +8,8 @@
     "height": 2
   },
   "bonus": {
-    "invWidth": 1,
-    "invHeight": 1
+    "invRows": 1,
+    "invCols": 1
   },
   "recipe": {
     "craftAmount": 1,

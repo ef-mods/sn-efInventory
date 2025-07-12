@@ -8,12 +8,14 @@ using C = Constants;
 
 [HarmonyPatch]
 public class InventoryPatches {
+  /// <summary>
+  ///   Resizes the inventory container to the configured width and height.
+  /// </summary>
   [HarmonyPostfix]
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.Awake))]
-  public static void InventoryAwakePostfix(Inventory? __instance) {
-    if (__instance == null) { return; }
-    if (S.InvWidth == C.DEF_W && S.InvHeight == C.DEF_H) { return; }
+  public static void InventoryAwakePostfix() {
+    if (S.InvWidth == C.INV_DEF_W && S.InvHeight == C.INV_DEF_H) { return; }
     Inventory.main.container.Resize(S.InvWidth, S.InvHeight);
-    P.Logger?.LogDebug($"Inventory resized to {S.InvWidth}x{S.InvHeight}.");
+    P.Logger.LogDebug($"Inventory resized to {S.InvWidth}x{S.InvHeight}.");
   }
 }

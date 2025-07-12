@@ -10,11 +10,11 @@ using C = Constants;
 public class Settings : ConfigFile {
   public static Settings Instance { get; } = OptionsPanelHandler.RegisterModOptions<Settings>();
 
-  [Slider(C.LABEL_INV_W, C.MIN_W, C.MAX_W, DefaultValue = C.DEF_W, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 6.")]
-  public int invWidth = C.DEF_W;
+  [Slider(C.LABEL_INV_W, C.INV_MIN_W, C.INV_MAX_W, DefaultValue = C.INV_DEF_W, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 6.")]
+  public int invWidth = C.INV_DEF_W;
 
-  [Slider(C.LABEL_INV_H, C.MIN_H, C.MAX_H, DefaultValue = C.DEF_H, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 8.")]
-  public int invHeight = C.DEF_H;
+  [Slider(C.LABEL_INV_H, C.INV_MIN_H, C.INV_MAX_H, DefaultValue = C.INV_DEF_H, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 8.")]
+  public int invHeight = C.INV_DEF_H;
 
   public static int InvWidth => Instance.invWidth;
   public static int InvHeight => Instance.invHeight;

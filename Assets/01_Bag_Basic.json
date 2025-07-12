@@ -8,12 +8,12 @@
     "height": 2
   },
   "bonus": {
-    "invWidth": 1,
-    "invHeight": 0
+    "invRows": 1,
+    "invCols": 0
   },
   "recipe": {
     "craftAmount": 1,
-    "Ingredients": [
+    "ingredients": [
       {
         "techType": "Silicone",
         "amount": 1

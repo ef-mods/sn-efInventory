@@ -16,19 +16,21 @@ namespace efInventory;
 [BepInProcess("SubnauticaZero.exe")]
 #endif
 public class Plugin : BaseUnityPlugin {
-  public new static ManualLogSource? Logger { get; private set; }
   private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+
+  public new static ManualLogSource Logger { get; private set; } = null!;
   public static string AssetsPath => Path.Combine(Path.GetDirectoryName(Assembly.Location), "Assets");
+
   public static Dictionary<TechType, Bag> Bags { get; } = new();
 
   private void Awake() {
     Logger = base.Logger;
     Settings.Instance.Load();
-    Equipment.slotMapping.Add(Constants.SLOT_NAME, EquipmentType.Gloves);
-    InitializePrefabs();
+
+    Equipment.slotMapping.Add(Constants.SLOT_BAG_NAME, EquipmentType.Gloves);
+    BagRegistrar.RegisterBags();
+
     Harmony.CreateAndPatchAll(Assembly, $"{PluginInfo.PLUGIN_GUID}");
     Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
   }
-
-  private void InitializePrefabs() => BagRegistrar.RegisterBags();
 }
