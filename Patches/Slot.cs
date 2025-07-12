@@ -2,20 +2,24 @@ namespace efInventory.Patches;
 
 using HarmonyLib;
 using UnityEngine;
-
-using P = Plugin;
-using C = Constants;
 using System.Linq;
+
+using C = Constants;
+using P = Plugin;
+using S = Settings;
 
 [HarmonyPatch]
 public class SlotPatches {
+  private static bool isSlotAdded = false; // guard against multiple additions
   /// <summary>
-  ///   Adds a new equipment slot for bags..
+  ///   Adds a new equipment slot for bags.
   /// </summary>
   [HarmonyPostfix]
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.UnlockDefaultEquipmentSlots))]
   public static void InventoryUnlockDefaultEquipmentSlotsPostfix(Inventory __instance) {
+    if (!S.BagsEnabled || isSlotAdded) { return; }
     __instance.equipment.AddSlot(C.SLOT_BAG_NAME);
+    isSlotAdded = true;
     P.Logger.LogInfo($"Added equipment slot: {C.SLOT_BAG_NAME}.");
   }
 
@@ -25,6 +29,7 @@ public class SlotPatches {
   [HarmonyPrefix]
   [HarmonyPatch(typeof(uGUI_Equipment), nameof(uGUI_Equipment.Awake))]
   public static void EquipmentAwakePrefix(uGUI_Equipment __instance) {
+    if (!S.BagsEnabled) { return; }
     var component = __instance.GetComponentsInChildren<uGUI_EquipmentSlot>().First(c => c.slot.Equals(C.SLOT_GLOVES_NAME));
     var slot = Object.Instantiate(component, component.transform.parent);
     slot.slot = C.SLOT_BAG_NAME;

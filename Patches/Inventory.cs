@@ -14,8 +14,8 @@ public class InventoryPatches {
   [HarmonyPostfix]
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.Awake))]
   public static void InventoryAwakePostfix() {
-    if (S.InvWidth == C.INV_DEF_W && S.InvHeight == C.INV_DEF_H) { return; }
-    Inventory.main.container.Resize(S.InvWidth, S.InvHeight);
-    P.Logger.LogDebug($"Inventory resized to {S.InvWidth}x{S.InvHeight}.");
+    if (!S.InvEnabled || (S.InvCols == C.INV_COLS_DEF && S.InvRows == C.INV_ROWS_DEF)) { return; }
+    Inventory.main.container.Resize(S.InvCols, S.InvRows);
+    P.Logger.LogDebug($"Inventory resized to {S.InvCols}x{S.InvRows}.");
   }
 }

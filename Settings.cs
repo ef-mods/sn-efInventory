@@ -10,12 +10,39 @@ using C = Constants;
 public class Settings : ConfigFile {
   public static Settings Instance { get; } = OptionsPanelHandler.RegisterModOptions<Settings>();
 
-  [Slider(C.LABEL_INV_W, C.INV_MIN_W, C.INV_MAX_W, DefaultValue = C.INV_DEF_W, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 6.")]
-  public int invWidth = C.INV_DEF_W;
+  [Toggle(C.LABEL_RESTART)]
+  public bool warningDivider;
 
-  [Slider(C.LABEL_INV_H, C.INV_MIN_H, C.INV_MAX_H, DefaultValue = C.INV_DEF_H, Step = C.STEP_UNO, Tooltip = $"{C.TOOLTIP_RESTART} Vanilla: 8.")]
-  public int invHeight = C.INV_DEF_H;
+  [Toggle(C.LABEL_INV_ENABLED)]
+  public bool invEnabled = true;
 
-  public static int InvWidth => Instance.invWidth;
-  public static int InvHeight => Instance.invHeight;
+  [Slider(
+    C.LABEL_INV_COLS,
+    C.INV_COLS_MIN,
+    C.INV_COLS_MAX,
+    DefaultValue = C.INV_COLS_DEF,
+    Step = C.STEP_UNO,
+    Tooltip = C.TIP_INV_COLS
+  )]
+  public int invCols = C.INV_COLS_DEF;
+
+  [Slider(
+    C.LABEL_INV_ROWS,
+    C.INV_ROWS_MIN,
+    C.INV_ROWS_MAX,
+    DefaultValue = C.INV_ROWS_DEF,
+    Step = C.STEP_UNO,
+    Tooltip = C.TIP_INV_ROWS
+  )]
+  public int invRows = C.INV_ROWS_DEF;
+
+  [Toggle(C.LABEL_BAGS_ENABLED, Tooltip = C.TIP_BAGS_ENABLED)]
+  public bool bagsEnabled = true;
+
+  // getters
+  public static bool InvEnabled => Instance.invEnabled;
+  public static int InvCols => Instance.invCols;
+  public static int InvRows => Instance.invRows;
+  public static bool BagsEnabled => Instance.bagsEnabled;
+
 }

@@ -3,8 +3,9 @@ namespace efInventory.Patches;
 using HarmonyLib;
 using System.Collections.Generic;
 
-using P = Plugin;
 using C = Constants;
+using P = Plugin;
+using S = Settings;
 
 [HarmonyPatch]
 public class BagPatches {
@@ -24,7 +25,7 @@ public class BagPatches {
   [HarmonyPrefix]
   [HarmonyPatch(typeof(Equipment), nameof(Equipment.AllowedToAdd))]
   public static bool EquipmentAllowedToAddPrefix(string slot, Pickupable pickupable, bool verbose, ref bool __result) {
-    if (IsNeitherBagNorGloves(pickupable.GetTechType())) { return true; }
+    if (!S.BagsEnabled || IsNeitherBagNorGloves(pickupable.GetTechType())) { return true; }
     __result = IsCorrectBGSlot(pickupable.GetTechType(), slot);
     return false;
   }
@@ -36,7 +37,7 @@ public class BagPatches {
   [HarmonyPatch(typeof(uGUI_Equipment), nameof(uGUI_Equipment.OnDragHoverStay))]
   public static bool OnDragHoverStayPrefix(string slotB)
   => ItemDragManager.isDragging &&
-    (IsNeitherBagNorGloves(ItemDragManager.draggedItem.item.GetTechType()) ||
+    (!S.BagsEnabled || IsNeitherBagNorGloves(ItemDragManager.draggedItem.item.GetTechType()) ||
     IsCorrectBGSlot(ItemDragManager.draggedItem.item.GetTechType(), slotB));
 
   /// <summary>
@@ -45,7 +46,7 @@ public class BagPatches {
   [HarmonyPostfix]
   [HarmonyPatch(typeof(uGUI_Equipment), nameof(uGUI_Equipment.OnItemDragStart))]
   private static void OnItemDragStartPostfix(uGUI_Equipment __instance, Pickupable p) {
-    if (IsNeitherBagNorGloves(p.GetTechType())) { return; }
+    if (!S.BagsEnabled || IsNeitherBagNorGloves(p.GetTechType())) { return; }
     var slots = (Dictionary<string, uGUI_EquipmentSlot>)AccessTools.Field(typeof(uGUI_Equipment), "allSlots").GetValue(__instance);
     slots.ForEach(kvp => kvp.Value.MarkCompatible(IsCorrectBGSlot(p.GetTechType(), kvp.Value.slot)));
   }
@@ -56,7 +57,7 @@ public class BagPatches {
   [HarmonyPostfix]
   [HarmonyPatch(typeof(uGUI_InventoryTab), nameof(uGUI_InventoryTab.OnPointerEnter))]
   public static void OnPointerEnterPostfix(uGUI_InventoryTab __instance, InventoryItem item) {
-    if (ItemDragManager.isDragging || !Player.main.GetPDA().isInUse || IsNeitherBagNorGloves(item.item.GetTechType())) { return; }
+    if (!S.BagsEnabled || ItemDragManager.isDragging || !Player.main.GetPDA().isInUse || IsNeitherBagNorGloves(item.item.GetTechType())) { return; }
     var slots = (Dictionary<string, uGUI_EquipmentSlot>)AccessTools.Field(typeof(uGUI_Equipment), "allSlots").GetValue(__instance.equipment);
     slots.ForEach(kvp => kvp.Value.MarkCompatible(IsCorrectBGSlot(item.item.GetTechType(), kvp.Value.slot)));
   }
@@ -65,27 +66,35 @@ public class BagPatches {
   ///   Increases the inventory size by the bonus amount on equipping a bag.
   /// </summary>
   [HarmonyPostfix]
-  [HarmonyPatch(typeof(uGUI_Equipment), nameof(uGUI_Equipment.OnEquip))]
-  public static void EquipmentOnEquipPostfix(string slot, InventoryItem item) {
-    if (slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
+  [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnEquip))]
+  public static void InventoryOnEquipPostfix(string slot, InventoryItem item) {
+    // P.Logger.LogDebug("Triggered OnEquip");
+    if (!S.BagsEnabled || slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
 
-    var cols = Inventory.main.container.sizeX + bag.Bonus.InvCols;
-    var rows = Inventory.main.container.sizeY + bag.Bonus.InvRows;
+    var cols = Inventory.main.container.sizeX;
+    var newCols = cols + bag.Bonus.InvCols;
+    var rows = Inventory.main.container.sizeY;
+    var newRows = rows + bag.Bonus.InvRows;
 
-    Inventory.main.container.Resize(cols, rows);
+    P.Logger.LogDebug($"Bag equipped: {bag.TechType}, inventory size {cols}x{rows} => {newCols}x{newRows}.");
+    Inventory.main.container.Resize(newCols, newRows);
   }
 
   /// <summary>
   ///   Decreases the inventory size by the bonus amount on unequipping a bag.
   /// </summary>
   [HarmonyPostfix]
-  [HarmonyPatch(typeof(uGUI_Equipment), nameof(uGUI_Equipment.OnUnequip))]
-  public static void EquipmentOnUnequipPostfix(string slot, InventoryItem item) {
-    if (slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
+  [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnUnequip))]
+  public static void InventoryOnUnequipPostfix(string slot, InventoryItem item) {
+    // P.Logger.LogDebug("Triggered OnUnequip");
+    if (!S.BagsEnabled || slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
 
-    var cols = Inventory.main.container.sizeX - bag.Bonus.InvCols;
-    var rows = Inventory.main.container.sizeY - bag.Bonus.InvRows;
+    var cols = Inventory.main.container.sizeX;
+    var newCols = cols - bag.Bonus.InvCols;
+    var rows = Inventory.main.container.sizeY;
+    var newRows = rows - bag.Bonus.InvRows;
 
-    Inventory.main.container.Resize(cols, rows);
+    P.Logger.LogDebug($"Bag unequipped: {bag.TechType}, inventory size {cols}x{rows} => {newCols}x{newRows}.");
+    Inventory.main.container.Resize(newCols, newRows);
   }
 }
