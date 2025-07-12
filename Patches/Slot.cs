@@ -10,7 +10,7 @@ using S = Settings;
 
 [HarmonyPatch]
 public class SlotPatches {
-  private static bool isSlotAdded = false; // guard against multiple additions
+  private static bool isSlotAdded = false; // guard against triggering multiple times
   /// <summary>
   ///   Adds a new equipment slot for bags.
   /// </summary>
@@ -18,8 +18,7 @@ public class SlotPatches {
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.UnlockDefaultEquipmentSlots))]
   public static void InventoryUnlockDefaultEquipmentSlotsPostfix(Inventory __instance) {
     if (!S.BagsEnabled || isSlotAdded) { return; }
-    __instance.equipment.AddSlot(C.SLOT_BAG_NAME);
-    isSlotAdded = true;
+    isSlotAdded = __instance.equipment.AddSlot(C.SLOT_BAG_NAME);
     P.Logger.LogInfo($"Added equipment slot: {C.SLOT_BAG_NAME}.");
   }
 

@@ -68,7 +68,6 @@ public class BagPatches {
   [HarmonyPostfix]
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnEquip))]
   public static void InventoryOnEquipPostfix(string slot, InventoryItem item) {
-    // P.Logger.LogDebug("Triggered OnEquip");
     if (!S.BagsEnabled || slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
 
     var cols = Inventory.main.container.sizeX;
@@ -86,7 +85,6 @@ public class BagPatches {
   [HarmonyPostfix]
   [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnUnequip))]
   public static void InventoryOnUnequipPostfix(string slot, InventoryItem item) {
-    // P.Logger.LogDebug("Triggered OnUnequip");
     if (!S.BagsEnabled || slot != C.SLOT_BAG_NAME || !P.Bags.TryGetValue(item.item.GetTechType(), out var bag)) { return; }
 
     var cols = Inventory.main.container.sizeX;

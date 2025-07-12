@@ -2,9 +2,9 @@ namespace efInventory.Patches;
 
 using HarmonyLib;
 
+using C = Constants;
 using P = Plugin;
 using S = Settings;
-using C = Constants;
 
 [HarmonyPatch]
 public class InventoryPatches {
