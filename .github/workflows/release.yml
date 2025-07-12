@@ -29,20 +29,20 @@ jobs:
 
       - name: Prepare files for SN
         run: |
-          if exist efInventory rmdir /s /q efInventory
+          if (Test-Path efInventory) { Remove-Item efInventory -Recurse -Force }
           mkdir efInventory
-          copy bin/SUBNAUTICA/net472/efInventory.dll efInventory/
-          xcopy /E /I /Y bin/SUBNAUTICA/net472/Assets efInventory/Assets
+          Copy-Item bin/SUBNAUTICA/net472/efInventory.dll efInventory/
+          Copy-Item bin/SUBNAUTICA/net472/Assets efInventory/Assets -Recurse
 
       - name: Archive SN files
         run: 7z a SN_efInventory-${{ github.ref_name }}.zip efInventory
 
       - name: Prepare files for BZ
         run: |
-          if exist efInventory rmdir /s /q efInventory
+          if (Test-Path efInventory) { Remove-Item efInventory -Recurse -Force }
           mkdir efInventory
-          copy bin/BELOWZERO/net472/efInventory.dll efInventory/
-          xcopy /E /I /Y bin/BELOWZERO/net472/Assets efInventory/Assets
+          Copy-Item bin/BELOWZERO/net472/efInventory.dll efInventory/
+          Copy-Item bin/BELOWZERO/net472/Assets efInventory/Assets -Recurse
 
       - name: Archive BZ files
         run: 7z a BZ_efInventory-${{ github.ref_name }}.zip efInventory
