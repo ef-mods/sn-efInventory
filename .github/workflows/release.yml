@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore efInventory.csproj
+
+      - name: Build for SN
+        run: dotnet build efInventory.csproj --configuration SUBNAUTICA --no-restore
+
+      - name: Build for BZ
+        run: dotnet build efInventory.csproj --configuration BELOWZERO --no-restore
+
+      - name: Prepare files for SN
+        run: |
+          if exist efInventory rmdir /s /q efInventory
+          mkdir efInventory
+          copy bin/SUBNAUTICA/net472/efInventory.dll efInventory/
+          xcopy /E /I /Y bin/SUBNAUTICA/net472/Assets efInventory/Assets
+
+      - name: Archive SN files
+        run: 7z a SN_efInventory-${{ github.ref_name }}.zip efInventory
+
+      - name: Prepare files for BZ
+        run: |
+          if exist efInventory rmdir /s /q efInventory
+          mkdir efInventory
+          copy bin/BELOWZERO/net472/efInventory.dll efInventory/
+          xcopy /E /I /Y bin/BELOWZERO/net472/Assets efInventory/Assets
+
+      - name: Archive BZ files
+        run: 7z a BZ_efInventory-${{ github.ref_name }}.zip efInventory
+
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          commitMode: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SN_efInventory-${{ github.ref_name }}.zip
+            BZ_efInventory-${{ github.ref_name }}.zip
+          body: ${{ steps.changelog.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
